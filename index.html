@@ -182,6 +182,24 @@
 
   <script>
     lucide.createIcons();
+    // 頁面載入時，自動讀取最新 rates.json
+async function loadLatestRates() {
+  try {
+    // 加上時間戳避免瀏覽器快取舊資料
+    const res = await fetch('rates.json?t=' + new Date().getTime());
+    if (res.ok) {
+      const data = await res.json();
+      if (data.last_updated) document.getElementById('updateTime').textContent = data.last_updated;
+      if (data.hsbc_rate) document.getElementById('hsbcRate').textContent = data.hsbc_rate.replace('%', '');
+      if (data.hsbc_date) document.getElementById('hsbcDate').textContent = data.hsbc_date;
+      if (data.hibor_1m) document.getElementById('liveHiborText').textContent = `1 個月 HIBOR 最新官方定盤：${data.hibor_1m}`;
+    }
+  } catch (err) {
+    console.log('讀取 rates.json 提示：', err);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', loadLatestRates);
     function handleRefresh() {
       const icon = document.getElementById('refreshIcon');
       icon.classList.add('animate-spin');
