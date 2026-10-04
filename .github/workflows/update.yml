@@ -1,0 +1,31 @@
+name: 自動定時更新利率數據
+
+on:
+  schedule:
+    # 逢星期一至五，香港時間 11:30（金管局 11:15 定盤後）自動執行
+    # 換算為 UTC 時間是 03:30
+    - cron: '30 3 * * 1-5'
+  workflow_dispatch: # 支援手動一鍵測試觸發
+
+jobs:
+  update-rates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 簽出代碼
+        uses: actions/checkout@v4
+
+      - name: 設定 Python 環境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 執行更新腳本
+        run: python rates_updater.py
+
+      - name: 自動提交更新到倉庫
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add rates.json
+          git commit -m "Auto update rates [skip ci]" || exit 0
+          git push
