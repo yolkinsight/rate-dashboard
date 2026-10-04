@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>財務監察 / 利率監察 - 淺色版</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen pb-16 font-sans">
+
+  <!-- 頂部導航 -->
+  <header class="border-b border-slate-200 bg-white/80 backdrop-blur sticky top-0 z-30">
+    <div class="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div class="flex items-center space-x-2 text-sm text-slate-500 font-medium">
+        <span>財務監察</span>
+        <span class="text-slate-300">/</span>
+        <span class="text-slate-900 font-semibold">利率監察</span>
+      </div>
+      <button onclick="handleRefresh()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-sm transition active:scale-95">
+        <i data-lucide="rotate-cw" id="refreshIcon" class="w-3.5 h-3.5 text-slate-500"></i>
+        <span>更新資料</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 主內容容器 -->
+  <main class="max-w-4xl mx-auto px-4 pt-6 space-y-6">
+
+    <!-- 頁面標題 -->
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">借款成本・現金收益</h1>
+      <p class="text-xs sm:text-sm text-slate-500 mt-1">
+        最近更新 <span id="updateTime" class="font-medium text-slate-700">3/10/2026 16:29:43</span> · 香港時間
+      </p>
+    </div>
+
+    <!-- 區塊 1：港元借款利率 -->
+    <section class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+      <div class="flex items-baseline gap-2 mb-4">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900">港元借款利率</h2>
+        <span class="text-xs text-slate-400">點卡睇詳情</span>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-3.5 transition hover:shadow-md" onclick="showDetail('滙豐', 'H+0.5%', '3.468%', '年利率', '資料 10/02')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">滙豐</span><span class="text-slate-500">H+0.5%</span></div>
+          <div class="text-2xl font-bold text-slate-800 mt-2">3.468<span class="text-xs font-normal text-slate-500">%</span></div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60 text-[11px] text-slate-400 flex justify-between"><span>年利率</span><span>資料 10/02</span></div>
+        </div>
+
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-3.5 transition hover:shadow-md" onclick="showDetail('恒生', 'P-1.75%', '3.250%', '年利率', '資料 10/03')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">恒生</span><span class="text-slate-500">P-1.75%</span></div>
+          <div class="text-2xl font-bold text-emerald-600 mt-2">3.250<span class="text-xs font-normal text-emerald-600/70">%</span></div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60 text-[11px] text-slate-400 flex justify-between"><span>年利率</span><span>資料 10/03</span></div>
+        </div>
+
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-3.5 transition hover:shadow-md" onclick="showDetail('盈透', '孖展借款', '6.631%', '首段年利率', '資料 10/03')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">盈透</span><span class="text-slate-500">孖展借款</span></div>
+          <div class="text-2xl font-bold text-blue-600 mt-2">6.631<span class="text-xs font-normal text-blue-600/70">%</span></div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60 text-[11px] text-slate-400 flex justify-between"><span>首段年利率</span><span>資料 10/03</span></div>
+        </div>
+
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-3.5 transition hover:shadow-md" onclick="showDetail('東亞', 'P-2.75%', '2.500%', '年利率', '資料 10/03')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">東亞</span><span class="text-slate-500">P-2.75%</span></div>
+          <div class="text-2xl font-bold text-indigo-600 mt-2">2.500<span class="text-xs font-normal text-indigo-600/70">%</span></div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60 text-[11px] text-slate-400 flex justify-between"><span>年利率</span><span>資料 10/03</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 區塊 2：港元存款 / 收益 -->
+    <section class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-baseline gap-2">
+          <h2 class="text-base sm:text-lg font-bold text-slate-900">港元存款 / 收益</h2>
+          <span class="text-xs text-slate-400">點卡睇詳情</span>
+        </div>
+        <select class="bg-slate-50 border border-slate-200 text-slate-700 text-xs font-medium py-1 px-2.5 rounded-lg">
+          <option>最新</option>
+          <option>利率由高至低</option>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-4 transition hover:shadow-md" onclick="showDetail('大新 · VIP', '易出糧 · 全任務', '3.750%', '出糧+VIP 年息', '100 萬 / 31 日: HK$3,184.93')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">大新 · VIP</span><span class="text-slate-500">易出糧</span></div>
+          <div class="text-2xl font-bold text-emerald-600 mt-2">3.750%</div>
+          <div class="mt-2 text-xs text-slate-600">
+            <div>100 萬 / 31 日</div>
+            <div class="font-semibold text-slate-900 mt-0.5">HK$3,184.93</div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60">
+            <span class="text-[11px] font-medium text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-md">條款待核實</span>
+          </div>
+        </div>
+
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-4 transition hover:shadow-md" onclick="showDetail('DBS', '最新一期', '3.026%', '20 萬級公開', '登記已截止')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">DBS</span><span class="text-slate-500">最新一期</span></div>
+          <div class="text-2xl font-bold text-blue-600 mt-2">3.026%</div>
+          <div class="mt-2 text-xs text-slate-600">20 萬級公開</div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60">
+            <span class="text-[11px] font-medium text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-md">登記已截止</span>
+          </div>
+        </div>
+
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-4 transition hover:shadow-md" onclick="showDetail('博時', '貨幣基金', '2.840%', '7 日年化', '基金 · 非存款')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">博時</span><span class="text-slate-500">貨幣基金</span></div>
+          <div class="text-2xl font-bold text-purple-600 mt-2">2.840%</div>
+          <div class="mt-2 text-xs text-slate-600">7 日年化</div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60 text-[11px] text-slate-400">基金 · 非存款</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 區塊 3：美元存款 / 現金收益 -->
+    <section class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+      <div class="flex items-baseline gap-2 mb-4">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900">美元存款 / 現金收益</h2>
+        <span class="text-xs text-slate-400">點卡睇詳情</span>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-3.5 transition hover:shadow-md" onclick="showDetail('DBS 美元', '最新一期', '4.100%', '2.5 萬級公開', '登記已截止')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">DBS</span><span class="text-slate-500">最新一期</span></div>
+          <div class="text-2xl font-bold text-blue-600 mt-2">4.100%</div>
+          <div class="mt-2 text-[11px] text-slate-600">2.5 萬級公開</div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60"><span class="text-[10px] text-rose-700 bg-rose-50 px-1.5 py-0.5 rounded border border-rose-200">登記已截止</span></div>
+        </div>
+
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-3.5 transition hover:shadow-md" onclick="showDetail('富邦', '定期', '4.100%', '3 個月年利率', '6.5 萬 · 一般')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">富邦</span><span class="text-slate-500">定期</span></div>
+          <div class="text-2xl font-bold text-blue-600 mt-2">4.100%</div>
+          <div class="mt-2 text-[11px] text-slate-600">3 個月年利率</div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60 text-[11px] text-slate-400">6.5 萬 · 一般</div>
+        </div>
+
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-3.5 transition hover:shadow-md" onclick="showDetail('博時', '貨幣基金', '4.070%', '7 日年化', '基金 · 非存款')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">博時</span><span class="text-slate-500">貨幣基金</span></div>
+          <div class="text-2xl font-bold text-purple-600 mt-2">4.070%</div>
+          <div class="mt-2 text-[11px] text-slate-600">7 日年化</div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60 text-[11px] text-slate-400">基金 · 非存款</div>
+        </div>
+
+        <div class="cursor-pointer bg-slate-50/70 hover:bg-white border border-slate-200 rounded-xl p-3.5 transition hover:shadow-md" onclick="showDetail('SGOV', '國債基金', '3.700%', '30 日年化', '基金 · 非存款')">
+          <div class="flex justify-between text-xs"><span class="font-bold text-slate-900">SGOV</span><span class="text-slate-500">國債基金</span></div>
+          <div class="text-2xl font-bold text-amber-600 mt-2">3.700%</div>
+          <div class="mt-2 text-[11px] text-slate-600">30 日年化</div>
+          <div class="mt-3 pt-2 border-t border-slate-200/60 text-[11px] text-slate-400">基金 · 非存款</div>
+        </div>
+      </div>
+      <p class="text-[11px] text-slate-400 mt-4">基金非存款，回報不保證；年化收益未扣個人稅及交易費。</p>
+    </section>
+
+    <!-- 區塊 4：折疊內容 -->
+    <section class="space-y-3">
+      <h2 class="text-base sm:text-lg font-bold text-slate-900">詳細試算與市場背景</h2>
+      <div class="border border-slate-200 bg-white rounded-xl overflow-hidden shadow-sm">
+        <button onclick="toggleAccordion('ibAccordion')" class="w-full px-4 py-3 text-left flex justify-between text-sm font-semibold text-slate-800 hover:bg-slate-50">
+          <span>▶ IB 孖展分級與借款計算</span>
+          <span class="text-xs text-slate-400 font-normal">展開</span>
+        </button>
+        <div id="ibAccordion" class="hidden p-4 border-t border-slate-100 bg-slate-50/50 text-xs text-slate-600">
+          首 780,000 HKD: 基準 + 1.5% | 780,001 - 7,800,000 HKD: 基準 + 1.0%
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 詳情彈窗 Modal -->
+  <div id="detailModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl border border-slate-100">
+      <div class="flex justify-between border-b pb-3 font-bold text-slate-900">
+        <span id="modalTitle">詳情</span>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+      <div class="py-4 text-sm text-slate-600 space-y-2" id="modalBody"></div>
+      <button onclick="closeModal()" class="w-full py-1.5 text-xs font-semibold text-white bg-slate-900 rounded-lg">確定</button>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    function handleRefresh() {
+      const icon = document.getElementById('refreshIcon');
+      icon.classList.add('animate-spin');
+      setTimeout(() => {
+        icon.classList.remove('animate-spin');
+        document.getElementById('updateTime').textContent = new Date().toLocaleTimeString('zh-HK');
+      }, 600);
+    }
+    function toggleAccordion(id) {
+      document.getElementById(id).classList.toggle('hidden');
+    }
+    function showDetail(title, type, rate, label, extra) {
+      document.getElementById('modalTitle').textContent = `${title} · ${type}`;
+      document.getElementById('modalBody').innerHTML = `
+        <div class="flex justify-between"><span>利率</span><span class="font-bold text-slate-900">${rate}</span></div>
+        <div class="flex justify-between"><span>計算類型</span><span>${label}</span></div>
+        <div class="flex justify-between"><span>門檻/備註</span><span>${extra}</span></div>
+      `;
+      document.getElementById('detailModal').classList.remove('hidden');
+    }
+    function closeModal() {
+      document.getElementById('detailModal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
